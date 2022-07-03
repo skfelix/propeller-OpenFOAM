@@ -1,0 +1,29 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+#mkdir -p constant/triSurface
+
+# copy propeller surface from resources directory
+#cp -f $FOAM_TUTORIALS/resources/geometry/propeller/* constant/triSurface/
+
+# meshing
+rm -rf constant/polyMesh
+cp -r stator/constant/polyMesh constant/
+
+mergeMeshes . rotor -overwrite
+
+topoSet -dict system/createInletOutletSets.topoSetDict
+
+createPatch -overwrite
+
+checkMesh
+
+topoSet -dict system/createAMIFaces.topoSetDict
+#setSet 
+
+#echo "cellZoneSet rotor new setToCellZone region1 quit" 
+
+
+#------------------------------------------------------------------------------

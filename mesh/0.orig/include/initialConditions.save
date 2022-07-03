@@ -1,0 +1,20 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+flowVelocity         (0 -20 0);		// m/s
+flowStaticPressure   101325;		// Pa
+flowTemperature	     298;		// K
+nuTildaVal	     4.5e-5;		// m^2/s
+nu3.5e-6;		// m^2/s
+rhoVal1			1.225;			// kg/m^3
+nuVal1				 1.5e-5;		// m^2/s
+epsilonVal	         0.0495;		// m^2/s^3
+kVal		       	 0.06;			// m^2/s^2
+
+// ************************************************************************* //
+

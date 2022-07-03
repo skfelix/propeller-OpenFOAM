@@ -1,0 +1,56 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "0/include";
+    object      initialConditions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+/* Ambient air variables */
+UInf				(0 -5 0);	// m/s
+pInf				101325;		// Pa
+TInf				298;		// K
+rhoInf				1.225;		// kg/m^3
+muVal 				1.82e-5; 	// kg/(m.s)
+nuVal				1.5e-5;		// m^2/s
+
+/* spalartAllmaras turbulence model */
+nuTildaVal			4.5e-5;		// m^2/s     nuTilda = 3*nu
+nutVal			    3.15e-6;		// m^2/s   nut = 0.07*nuTilda
+
+// kEpsilon
+//kFarfieldVal		0.06;	// m^2/s^2      k       = 9e-09*Uref^2 = 2/3*(IU)^2
+//kWallVal			1e-50;		    // m^2/s^2      small number -> zero
+epsilonVal			0.0495;		// m^2/s^3   eps = 0.09^(3/4)*k^(3/2)/D  
+//nutVal			    0;    // m^2/s     nut = 0.09*k^2/eps  
+
+/* kOmega turbulence model */
+//kVal				1.04e-3;	// m^2/s^2      k       = 9e-09*Uref^2  
+//omegaVal		    10;         // 1/s          omega   = 0.09^(3/4)*k^(1/2)/D  
+//nutVal			1.35e-7;	// m^2/s        nut     = 0.009*nu = k/omega
+
+/* kOmegaSST turbulence model */    
+//nutVal				1.35e-7;	// m^2/s        nut     = 0.009*nu = k/omega
+kFarfieldVal		1.44e-5;	// m^2/s^2      k       = 9e-09*Uref^2 = 2/3*(IU)^2
+kWallVal			1e-50;		    // m^2/s^2      small number -> zero
+omegaFarfieldVal	2683;		// 1/s          omega   = 0.09^(3/4)*k^(1/2)/D
+omegaWallVal 		5.8e10;		// 1/s          omega   = 60*nu/(beta1*delta_d1^2)
+
+// ******************************OLD***************************************** //
+
+//nutVal				1.35e-7;    // m^2/s        nut = k/omega
+//kFarfieldVal		1.04e-3;	// m^2/s^2      k   = 2/3*(IUref)^2
+//kWallVal			1e-50;		    // m^2/s^2      small number -> zero
+//omegaFarfieldVal	7867;		// 1/s          omega = 1e-6*rho*Uref^2/mu
+//omegaWallVal 		4.8e10;		// 1/s          omegaWall = 1e-6*60*nu/(beta1*delta_d1^2)
+
+// ************************************************************************* //
