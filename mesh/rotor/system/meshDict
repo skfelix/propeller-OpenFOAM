@@ -1,0 +1,228 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "mesh";
+    object      meshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+surfaceFile "combined.fms";
+
+//minCellSize 0.0025;
+
+maxCellSize 0.01;
+
+//boundaryCellSize 0.05;
+
+// Refine region 
+surfaceMeshRefinement
+{
+    domain
+    {
+        surfaceFile innerCylinderSmall.stl;
+        additionalRefinementLevels 1;
+        refinementThickness 10;
+    }
+}
+
+objectRefinements
+{
+    box
+    {
+        type        box;
+        additionalRefinementLevels 2;  
+        centre      (0.0 0.0 0.0);
+        lengthX     0.05;
+        lengthY     0.025;
+        lengthZ     0.35;
+        
+    }
+}
+
+// Refine the edge features of the mesh
+edgeMeshRefinement
+{
+    edge1
+    {
+        edgeFile "constant/triSurface/propellerTip.eMesh";
+        additionalRefinementLevels 6;
+        //cellSize 0.005;
+        refinementThickness 0.000001;
+    }
+}
+
+// Refine the patches within the mesh
+localRefinement
+{
+    ibdLeadingEdge
+    {
+        //additionalRefinementLevels 5;
+        cellSize    0.00055;
+        
+    }
+    obdLeadingEdge
+    {
+        //additionalRefinementLevels 6;
+        cellSize    0.00030;
+    }
+    mainBox
+    {
+        additionalRefinementLevels 4;
+        
+    }
+    ibdTrailingEdge
+    {
+        additionalRefinementLevels 1;
+        
+    }
+    obdTrailingEdge
+    {
+        additionalRefinementLevels 3;
+        
+    }
+    hub
+    {
+        additionalRefinementLevels 1;
+        
+    }
+}
+
+
+// Add inflation layers to the patches
+boundaryLayers 
+{
+    //nLayers 3;
+    
+    thicknessRatio 1.1;
+    allowDiscontinuity 1;
+    
+    maxFirstLayerThickness 0.5;
+     
+    patchBoundaryLayers
+    {
+        ibdLeadingEdge
+        {
+            nLayers 3;
+        }
+        obdLeadingEdge
+        {
+            nLayers 3;
+        }
+        mainBox
+        {
+            nLayers 3;
+        }
+        ibdTrailingEdge
+        {
+            nLayers 3;
+        }
+        obdTrailingEdge
+        {
+            nLayers 3;
+        }
+    }
+    
+    optimiseLayer 1;  
+
+    optimisationParameters
+    {
+        nSmoothNormals 5;
+        maxNumIterations 5;
+        featureSizeFactor 0.3;
+        reCalculateNormals 1;
+        relThicknessTol 0.1;
+        
+        /*nSmoothNormals 15;
+		maxNumIterations 15;
+		featureSizeFactor 0.1;
+		relThicknessTol 0.001;*/
+    } 
+            
+}
+
+meshQualitySettings
+{
+    //- Maximum non-orthogonality allowed. Set to 180 to disable.
+    maxNonOrtho 65;
+
+    //- Max skewness allowed. Set to <0 to disable.
+    maxSkewness 2;
+}
+
+/*meshQualitySettings
+{
+    //- Maximum non-orthogonality allowed. Set to 180 to disable.
+    maxNonOrtho 65;
+
+    //- Max skewness allowed. Set to <0 to disable.
+    maxBoundarySkewness 4;
+    maxInternalSkewness 4;
+
+    //- Max concaveness allowed. Is angle (in degrees) below which concavity
+    //  is allowed. 0 is straight face, <0 would be convex face.
+    //  Set to 180 to disable.
+    //maxConcave 80;
+
+    //- Minimum pyramid volume. Is absolute volume of cell pyramid.
+    //  Set to a sensible fraction of the smallest cell volume expected.
+    //  Set to very negative number (e.g. -1E30) to disable.
+    //minVol 1e-13;
+
+    //- Minimum quality of the tet formed by the face-centre
+    //  and variable base point minimum decomposition triangles and
+    //  the cell centre. This has to be a positive number for tracking
+    //  to work. Set to very negative number (e.g. -1E30) to
+    //  disable.
+    //     <0 = inside out tet,
+    //      0 = flat tet
+    //      1 = regular tet
+    //minTetQuality -1e30; // 1e-30;
+
+    //- Minimum face area. Set to <0 to disable.
+    //minArea -1;
+
+    //- Minimum face twist. Set to <-1 to disable. dot product of face normal
+    //  and face centre triangles normal
+    //minTwist 0.01;
+
+    //- Minimum normalised cell determinant
+    //  1 = hex, <= 0 = folded or flattened illegal cell
+    //minDeterminant 0.001;
+
+    //- minFaceWeight (0 -> 0.5)
+    //minFaceWeight 0.05;
+
+    //- minVolRatio (0 -> 1)
+    //minVolRatio 0.01;
+
+    //must be >0 for Fluent compatibility
+    //minTriangleTwist -1;
+}*/
+
+
+// Join separate patches in just one propellerTip
+renameBoundary
+{
+	
+	newPatchNames
+	{
+		ibdLeadingEdge      {newName propellerTip; type wall;}
+        obdLeadingEdge      {newName propellerTip; type wall;}
+		mainBox             {newName propellerTip; type wall;}
+		ibdTrailingEdge     {newName propellerTip; type wall;}
+        obdTrailingEdge     {newName propellerTip; type wall;}
+		hub                 {newName propellerTip; type wall;}
+		inlet               {newName inlet; type patch;}
+        outlet              {newName outlet; type patch;}
+	}
+
+}
