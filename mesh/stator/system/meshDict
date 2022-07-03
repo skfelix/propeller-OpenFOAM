@@ -1,0 +1,46 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "mesh";
+    object      meshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+surfaceFile "combined.fms";
+
+//minCellSize 0.005;
+
+maxCellSize 0.1;
+
+//boundaryCellSize 0.005;
+
+// Refine region 
+surfaceMeshRefinement
+{
+    domain
+    {
+        surfaceFile outerCylinder.stl;
+        additionalRefinementLevels 3;
+        refinementThickness 50;
+    }
+}
+
+localRefinement
+{
+    "inneCylinderSmall_slave"
+    {
+        //cellSize  0.000125;
+        additionalRefinementLevels 3;
+        refinementThickness 50;
+    }
+}
+
